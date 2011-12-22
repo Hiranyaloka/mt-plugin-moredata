@@ -1,0 +1,84 @@
+<mtapp:setting
+  id="moredata_opentag"
+  label="Open Tag"
+  label_class="moredata-text-setting"
+  hint="A tag which signals the start of your data."
+  required="1"
+  show_hint="1">
+    <input type="text" name="moredata_opentag" id="opentag" 
+       value="<mt:var name="moredata_opentag">" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="moredata_closetag"
+  label="Close Tag"
+  label_class="moredata-text-setting"
+  hint="A tag which signals the end of your data - not required if data is always below all content."
+  required="0"
+  show_hint="1">
+    <input type="text" name="moredata_closetag" id="close" 
+       value="<mt:var name="moredata_closetag">" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="moredata_datasep"
+  label="Data Separator"
+  label_class="moredata-text-setting"
+  hint="A separator to split your data."
+  required="1"
+  show_hint="1">
+    <input type="text" name="moredata_datasep" id="datasep" 
+       value="<mt:var name="moredata_datasep">" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="moredata_hashsep"
+  label="Hash Separator"
+  label_class="moredata-text-setting"
+  hint="A separator to join keys with values."
+  required="1"
+  show_hint="1">
+    <input type="text" name="moredata_hashsep" id="hashsep" 
+       value="<mt:var name="moredata_hashsep">" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="moredata_format"
+  label="Default Data Format"
+  label_class="moredata-radio-setting"
+  hint="Choose a default data format (currently only csv)."
+  required="1"
+  show_hint="1">
+  <ul>
+  <li>
+    <input type="radio" name="moredata_format" id="hash" class="rb" value="hash" <mt:if name="moredata_format" eq="hash">checked="checked" </mt:if>/>
+    <label for="hash">hash</label>
+  </li>
+    <li>
+  <input type="radio" name="moredata_format" id="array" class="rb" value="array" <mt:if name="moredata_format" eq="array">checked="checked" </mt:if>/>
+    <label for="array">array</label>
+  </li>
+  <input type="radio" name="moredata_format" id="string" class="rb" value="string" <mt:if name="moredata_format" eq="string">checked="checked" </mt:if>/>
+    <label for="string">string</label>
+  </li>
+<!-- add more options later
+  <li>
+    <input type="radio" name="moredata_format" id="format_datatable" class="rb" value="datatable" <mt:if name="moredata_format" eq="datatable">checked="checked" </mt:if>/>
+    <label for="format_json">DataTable</label>
+  </li>
+  <li>
+    <input type="radio" name="moredata_format" id="format_json" class="rb" value="json" <mt:if name="moredata_format" eq="json">checked="checked" </mt:if>/>
+    <label for="format_json">JSON</label>
+  </li>
+  <li>
+    <input type="radio" name="moredata_format" id="format_xml" class="rb" value="xml" <mt:if name="moredata_format" eq="xml">checked="checked" </mt:if>/>
+    <label for="format_xml">XML</label>
+  </li>
+  <li>
+    <input type="radio" name="moredata_format" id="format_perl" class="rb" value="perl" <mt:if name="moredata_format" eq="perl">checked="checked" </mt:if>/>
+    <label for="format_perl">Perl</label>
+  </li>
+-->
+  </ul>
+</mtapp:setting>
+

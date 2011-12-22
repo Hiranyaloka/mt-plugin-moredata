@@ -1,0 +1,32 @@
+id: 'More Data'
+key: 'More Data'
+name: 'More Data'
+description: "Extract custom data structures from fields."
+version: 0.14
+author_name: 'Rick Bychowski'
+author_link: http://hiranyaloka.com/
+plugin_link: http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html
+blog_config_template: blog_config.tmpl
+
+tags:
+  modifier:
+    moredata:
+      label: 'MoreData'
+      handler: $MoreData::MoreData::Plugin::moredata
+
+settings:
+  moredata_opentag:
+    default: "---"
+    scope: blog
+  moredata_closetag:
+    default: "..."
+    scope: blog
+  moredata_hashsep:
+    default: "=>"
+    scope: blog
+  moredata_datasep:
+    default: ","
+    scope: blog
+  moredata_format:
+    default: "string"
+    scope: blog
