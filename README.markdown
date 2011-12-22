@@ -1,21 +1,22 @@
 # MOREDATA 0.15 FOR MOVABLE TYPE 4 AND MELODY #
 
-MoreData parses finds and parses CSV strings from any Movable Type tag into a hash or array which can be captured as an MT variable. All with the single tag modifier, `moredata`.
+MoreData parses finds and parses CSV strings from any Movable Type tag into a hash or array which can be captured as an MT variable. All with the single tag modifier, `moredata`. The Text::CSV module is required.
    
 ## EMBEDDING THE DATA IN A TEXT FIELD ##
 
-First embed a string anywhere within a text field accessible from an MT function tag. Let's use the EntryExcerpt field:
+First embed a string anywhere within a text field accessible from an MT function tag. The strings within each named data block are processed by Text::CSV, set to allow double quoted strings and whitespace. 
 
-    Excerpt
+Let's add data to an EntryExcerpt field:
+
     Here is my excerpt which I can output without the data.
     
     ---first_name=
-    Moe,Larry,Curly
+    Moe, Larry, Curly
     
     ---last_name=
-    Moe=>Howard,
-    Curly=>Howard,
-    Larry=>Fine
+    Moe = Howard
+    Curly = Howard
+    Larry = Fine
     
     ---say_yes=
     Why, certainly!
@@ -89,8 +90,8 @@ The plugin takes five blog-wide settings:
 
 - `opentag` should be a unique string which opens a data section, and is required for each data identifier.
 - `closetag` is required at the end of the whole dataset. Optionally it can close each data section.
-- `datasep` is a string that joins items in an array, and key-value pairs.
-- `hashsep` is a string that joins keys from values.
+- `datasep` is a character that joins items in an array, and key-value pairs.
+- `hashsep` is a character that joins keys from values.
 - `format` is the default format, used when a second argument to the `moredata` modifier is not given.
 
 ## FORMATTING THE DATA ##
@@ -114,11 +115,14 @@ The named data sets must be in one contiguous block, and only one block is allow
 (Everything between the first `opentag` and the `closetag` (or eof) is considered data).
 You can put that data block in the middle of the content (but then don't forget the close tag).
 
-White space is mostly very flexible. You can pack all the data onto one line, or insert as much whitespace and line returns as you want. Also there are no restrictions about putting data at the start of a line. The only whitespace restriction is that there should be no extra whitespace between the open tag, you data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
+Hash key-value pairs should be put on their own line. The data is processed with Text::CSV allowing whitespace and double quoted strings.
+
+The main whitespace restriction is that there should be no extra whitespace between the open tag, you data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
 
 ## CHOOSING TAGS AND SEPARATORS ##
 You can configure the open and close tags and the data and hash separator strings. The data separator and hash separator strings can be the same if you wish.
-You need to be wary of potential conflicts between your open and close tags, the separators, and your content or data.
+
+If your separator character appears in your data, be sure to add quotes around the string.
 
 - Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
 - You don't want your data separators (`,`, `=>` etc) to appear in your data, obviously.

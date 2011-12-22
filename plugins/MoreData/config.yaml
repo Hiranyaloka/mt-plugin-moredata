@@ -22,7 +22,7 @@ settings:
     default: "..."
     scope: blog
   moredata_hashsep:
-    default: "=>"
+    default: "="
     scope: blog
   moredata_datasep:
     default: ","

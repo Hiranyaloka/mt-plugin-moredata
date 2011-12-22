@@ -48,7 +48,7 @@ sub moredata {
   if ($format eq 'array') {
     $result = _moredata_array($datastring, $datasep_cfg);
   } elsif  ($format eq 'hash') {
-    $result = _moredata_hash($datastring, $datasep_cfg, $hashsep_cfg);
+    $result = _moredata_hash($datastring, $hashsep_cfg);
   } elsif  ($format eq 'string') {
     $result = $datastring;
   } else {
@@ -59,21 +59,28 @@ sub moredata {
 
 sub _moredata_array {
   my ($datastring, $datasep_cfg) = @_;
-  my @list = split /\s*$datasep_cfg\s*/, $datastring;
-  scalar @list ? \@list : undef;
+  use Text::CSV;
+  my $csv = Text::CSV->new ({ binary => 1, auto_diag => 1, allow_whitespace    => 1,  sep_char => "$datasep_cfg" });
+  my $io;
+  open ($io, "<:encoding(utf8)", \$datastring) or die "Cannot use CSV: $!".Text::CSV->error_diag ();
+  my $row = $csv->getline ($io);
+  $row || undef;
 }
 
  sub _moredata_hash {
-   my ($datastring, $datasep, $hashsep) = @_;
-   my %hash;
-   my @list = split /\s*\Q$datasep\E\s*/, $datastring;
-   foreach my $item (@list) {
-     my $count = my @array = split(/\s*\Q$hashsep\E\s*/, $item);
-     die "Count of $count is not a pair of values in hash assignment of values @array : $!" if ($count != (2 || 0)); 
-     $hash{$array[0]} = $array[1];
+  my ($datastring, $hashsep) = @_;
+  use Text::CSV;
+  my $csv = Text::CSV->new ({ binary => 1, auto_diag => 1, allow_whitespace    => 1,  sep_char => "$hashsep" });
+  my $io;
+  open ($io, "<:encoding(utf8)", \$datastring) or die "Cannot use CSV: $!".Text::CSV->error_diag ();
+  my %hash;
+  while (my $colref = $csv->getline($io)) {
+    my $count = scalar @{$colref};
+    die "$count is an odd number of keys and values at @{$colref}.\n" if ($count%2); 
+    $hash{$colref->[0]} = $colref->[1];
    }
-   scalar %hash ? \%hash : undef;
- }
+  scalar %hash ? \%hash : undef;
+}
  
 sub _moredata_config {
   my $ctx = shift;
