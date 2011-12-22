@@ -114,6 +114,8 @@ The named data sets must be in one contiguous block, and only one block is allow
 (Everything between the first `opentag` and the `closetag` (or eof) is considered data).
 You can put that data block in the middle of the content (but then don't forget the close tag).
 
+White space is mostly very flexible. You can pack all the data onto one line, or insert as much whitespace and line returns as you want. Also there are no restrictions about putting data at the start of a line. The only whitespace restriction is that there should be no extra whitespace between the open tag, you data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
+
 ## CHOOSING TAGS AND SEPARATORS ##
 You can configure the open and close tags and the data and hash separator strings. The data separator and hash separator strings can be the same if you wish.
 You need to be wary of potential conflicts between your open and close tags, the separators, and your content or data.
