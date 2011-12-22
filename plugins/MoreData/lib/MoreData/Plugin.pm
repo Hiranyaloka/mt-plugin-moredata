@@ -61,7 +61,6 @@ sub moredata {
   return $result;
 }
 
-# csv routine expects datastring ref and array ref of arguments
 sub _moredata_array {
   my ($datastring, $datasep_cfg) = @_;
   my @list = split /\s*$datasep_cfg\s*/, $datastring;
