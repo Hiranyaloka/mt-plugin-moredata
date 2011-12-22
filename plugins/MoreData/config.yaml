@@ -2,7 +2,7 @@ id: 'More Data'
 key: 'More Data'
 name: 'More Data'
 description: "Extract custom data structures from fields."
-version: 0.15
+version: 0.20
 author_name: 'Rick Bychowski'
 author_link: http://hiranyaloka.com/
 plugin_link: http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html
