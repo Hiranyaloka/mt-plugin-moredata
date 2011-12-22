@@ -130,7 +130,7 @@ In the former you would use `moredata="first name"`. The latter would be `moreda
 The venerable and awesome [Key Values plugin by Brad Choate](http://bradchoate.com/weblog/2002/07/27/keyvalues) was my inspiration for the MoreData plugin.
 
 ## SUPPORT ##
-Please send questions, comments, or criticisms to rick@hiranyaloka.com. The 
+Please send questions, comments, or criticisms to rick@hiranyaloka.com. Checkout the [moredata plugin home page](http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html)
 
 ## COPYRIGHT AND LICENSE ##
 
