@@ -104,9 +104,10 @@ Each data section begins with an identifier, followed immediately by the data id
 Each named dataset must be terminated by another named dataset, or a closetag if it is the last, or by the end of the file:
 
     ---first=
-    one,two,three
+    one, two, three
     ---second=
-    snow=>white,ruby=>red
+    snow => white
+    ruby => red
     ...
     
 You can omit the close tag if the data is at the end of the content.
