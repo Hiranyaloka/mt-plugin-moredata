@@ -1,8 +1,8 @@
 <mtapp:setting
   id="moredata_opentag"
-  label="Open Tag"
+  label="<__trans phrase="Open Tag">"
   label_class="moredata-text-setting"
-  hint="A tag which signals the start of your data."
+  hint="<__trans phrase="A tag which signals the start of your data.">"
   required="1"
   show_hint="1">
     <input type="text" name="moredata_opentag" id="opentag" 
@@ -11,9 +11,9 @@
 
 <mtapp:setting
   id="moredata_closetag"
-  label="Close Tag"
+  label="<__trans phrase="Close Tag">"
   label_class="moredata-text-setting"
-  hint="A tag which signals the end of your data - not required if data is always below all content."
+  hint="<__trans phrase="A tag which signals the end of your data - not required if data is always below all content.">"
   required="0"
   show_hint="1">
     <input type="text" name="moredata_closetag" id="close" 
@@ -22,9 +22,9 @@
 
 <mtapp:setting
   id="moredata_datasep"
-  label="Data Separator"
+  label="<__trans phrase="Data Separator">"
   label_class="moredata-text-setting"
-  hint="A character to join your data."
+  hint="<__trans phrase="A character to join your data.">"
   required="1"
   show_hint="1">
     <input type="text" name="moredata_datasep" id="datasep" 
@@ -33,9 +33,9 @@
 
 <mtapp:setting
   id="moredata_hashsep"
-  label="Hash Separator"
+  label="<__trans phrase="Hash Separator">"
   label_class="moredata-text-setting"
-  hint="A character to join keys with values."
+  hint="<__trans phrase="A character to join keys with values.">"
   required="1"
   show_hint="1">
     <input type="text" name="moredata_hashsep" id="hashsep" 
@@ -44,39 +44,40 @@
 
 <mtapp:setting
   id="moredata_format"
-  label="Default Data Format"
+  label="<__trans phrase="Default Data Format">"
   label_class="moredata-radio-setting"
-  hint="Choose a default data format (currently only csv)."
+  hint="<__trans phrase="Choose a default data format (currently only csv).">"
   required="1"
   show_hint="1">
   <ul>
   <li>
     <input type="radio" name="moredata_format" id="hash" class="rb" value="hash" <mt:if name="moredata_format" eq="hash">checked="checked" </mt:if>/>
-    <label for="hash">hash</label>
+    <label for="hash"><__trans phrase="hash"></label>
   </li>
-    <li>
-  <input type="radio" name="moredata_format" id="array" class="rb" value="array" <mt:if name="moredata_format" eq="array">checked="checked" </mt:if>/>
-    <label for="array">array</label>
+  <li>
+    <input type="radio" name="moredata_format" id="array" class="rb" value="array" <mt:if name="moredata_format" eq="array">checked="checked" </mt:if>/>
+    <label for="array"><__trans phrase="array"></label>
   </li>
-  <input type="radio" name="moredata_format" id="string" class="rb" value="string" <mt:if name="moredata_format" eq="string">checked="checked" </mt:if>/>
-    <label for="string">string</label>
+  <li>
+    <input type="radio" name="moredata_format" id="string" class="rb" value="string" <mt:if name="moredata_format" eq="string">checked="checked" </mt:if>/>
+    <label for="string"><__trans phrase="string"></label>
   </li>
 <!-- add more options later
   <li>
     <input type="radio" name="moredata_format" id="format_datatable" class="rb" value="datatable" <mt:if name="moredata_format" eq="datatable">checked="checked" </mt:if>/>
-    <label for="format_json">DataTable</label>
+    <label for="format_json"><__trans phrase="DataTable"></label>
   </li>
   <li>
     <input type="radio" name="moredata_format" id="format_json" class="rb" value="json" <mt:if name="moredata_format" eq="json">checked="checked" </mt:if>/>
-    <label for="format_json">JSON</label>
+    <label for="format_json"><__trans phrase="JSON"></label>
   </li>
   <li>
     <input type="radio" name="moredata_format" id="format_xml" class="rb" value="xml" <mt:if name="moredata_format" eq="xml">checked="checked" </mt:if>/>
-    <label for="format_xml">XML</label>
+    <label for="format_xml"><__trans phrase="XML"></label>
   </li>
   <li>
     <input type="radio" name="moredata_format" id="format_perl" class="rb" value="perl" <mt:if name="moredata_format" eq="perl">checked="checked" </mt:if>/>
-    <label for="format_perl">Perl</label>
+    <label for="format_perl"><__trans phrase="Perl"></label>
   </li>
 -->
   </ul>
