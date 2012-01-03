@@ -75,6 +75,7 @@ sub _moredata_array {
   open ($io, "<:encoding(utf8)", \$datastring) or die "Cannot use CSV: $!".Text::CSV->error_diag ();
   my %hash;
   while (my $colref = $csv->getline($io)) {
+    next unless length $colref->[0];
     my $count = scalar @{$colref};
     die "$count is an odd number of keys and values at @{$colref}.\n" if ($count%2); 
     $hash{$colref->[0]} = $colref->[1];
@@ -114,8 +115,8 @@ sub _retrieve_strings {
     unless (index($opentag,$closetag) == -1);
 # extract the content and data strings
   my $closeposition; # end of _all_ the data
-  if ((length($closetag)) && (rindex($str,$closetag) != -1)) { # closetag found
-    $closeposition = index($str,$closetag);
+  if (length($closetag) and rindex($str,$closetag) != -1) { # closetag found
+    $closeposition = rindex($str,$closetag);
   } else {
     $closeposition = $stringlength;
   }
@@ -124,36 +125,40 @@ sub _retrieve_strings {
   $content = substr($str, 0, $openposition) . substr($str, ($closeposition + length($closetag)), $stringlength); #length argument can be beyond the end
 # data includes open tag but not close tag
   $datastring = substr($str, $openposition, $datalength); # _all_ data
-  return [$content, $datastring] if ($dataname eq '__data__'); # return content and data as strings
-  return [$content, $datastring] if ($dataname eq '__content__'); # return content and data as strings
+  return [$content, $datastring] if ($dataname eq ('__data__' || '__content__')); # return content and data as strings
   return [$content, $datastring] unless length($datastring); # no reason to process empty datastring
-# search for named daatastring
+# search for named datastring
   my $nameopentag = $opentag . $dataname . '='; # selected data requires the equal sign appended
-# locate the desired selected data within the datastring
-  my $nameopenposition = index($datastring, $nameopentag);
-  if ($nameopenposition == -1) { # if named data can't be found, return substrings with empty datastring
-    return [$content, ''];
-  }
   my $length_tagname = length($nameopentag);
-  my $namecloseposition;
-  if (index($datastring, $opentag, $nameopenposition + 1) != -1 ) {  # if we find another opentag following current one
-    $namecloseposition = index($datastring, $opentag, $nameopenposition + 1); # find next opentag
-  } elsif (index($datastring, $closetag, $nameopenposition + 1) != -1 ) {  # otherwise use closing tag
-    $namecloseposition = index($datastring, $closetag, $nameopenposition + 1);
-  } else {  # else just use end of file
-    $namecloseposition = $datalength;
+  my $nameopenposition = 0;
+  my $namecloseposition = 0;
+  my $named_data;
+  my $append_string;
+  until ($nameopenposition == -1) {
+# locate the desired selected data within the datastring
+    $nameopenposition = index($datastring, $nameopentag, $namecloseposition);
+    last if ($nameopenposition == -1);
+    if (index($datastring, $opentag, $nameopenposition + 1) != -1 ) {  # if we find another opentag following current one
+      $namecloseposition = index($datastring, $opentag, $nameopenposition + 1);
+    } elsif (index($datastring, $closetag, $nameopenposition + 1) != -1 ) {  # otherwise use closing tag
+      $namecloseposition = index($datastring, $closetag, $nameopenposition);
+    } else {  # else just use end of file
+      $namecloseposition = $datalength;
+    }
+    my $namedatalength = $namecloseposition - $nameopenposition - $length_tagname;
+    $append_string = substr($datastring, $nameopenposition + $length_tagname, $namedatalength);
+    $named_data .= "$append_string" if $append_string;
+    last if ($namecloseposition == $datalength);
   }
-  $datalength = $namecloseposition - $nameopenposition - $length_tagname;
-  my $datastring = substr($datastring, $nameopenposition + $length_tagname, $datalength); 
-  return [$content, $datastring];
+  return [$content, $named_data];
 }
 
 # Perl trim function to remove whitespace from the start and end of the string
 sub _trim {
-	my $string = shift;
-	$string =~ s/^\s+//;
-	$string =~ s/\s+$//;
-	return $string;
+  my $string = shift;
+  $string =~ s/^\s+//;
+  $string =~ s/\s+$//;
+  return $string;
 }
 
 
