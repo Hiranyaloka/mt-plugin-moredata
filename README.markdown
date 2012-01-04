@@ -1,4 +1,4 @@
-# MOREDATA 0.30 FOR MOVABLE TYPE 4 AND MELODY #
+# MOREDATA 0.40 FOR MOVABLE TYPE 4 AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash or array which can be captured as an MT variable. All with the single tag modifier, `moredata`. The Text::CSV module is required.
    
@@ -112,24 +112,59 @@ Each named dataset must be terminated by another named dataset, or a closetag if
     
 You can omit the close tag if the data is at the end of the content.
   
-The named data sets must be in one contiguous block, and only one block is allowed.
-(Everything between the first `opentag` and the `closetag` (or eof) is considered data).
-You can put that data block in the middle of the content (but then don't forget the close tag).
+Everything between the first `opentag` and the `closetag` (or eof) is considered data.
 
-Hash key-value pairs should be put on their own line. The data is processed with Text::CSV allowing whitespace and double quoted strings.
+You can put your data block in the middle of the content (but then don't forget the close tag).
 
-The main whitespace restriction is that there should be no extra whitespace between the open tag, you data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
+Hash key-value pairs should be put on their own line. Blank lines between sets of key-value pairs are ignored.
+
+The data is processed with Text::CSV allowing whitespace and double quoted strings.
+
+There should be no extra whitespace between the open tag, your data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
+
+## COLLECTING DATA FROM MULTIPLE SOURCES INTO A SINGLE VARIABLE
+As of version 0.4, multiple instances of named data strings can be collected and saved into MT hash, array, or string variables. For example, if your `Asset Description` fields had a MoreData field like this:
+
+    ---locations=
+    Paris = 1
+    Tokyo = 1
+    ...
+
+Then you could collect all the data into a single hash variable like this:
+
+    <mt:SetVarBlock name="asset_data">
+    <mt:Assets>
+        <mt:AssetDescription convert_breaks="0" moredata="__data__">
+    </mt:Assets>
+    </mt:SetVarBlock>
+
+And extract only the locations data:
+
+    <mt:Var name="asset_data" moredata="locations","hash" setvar="locations_h">
+
+Then print a list of all (unique) locations associated with your assets like this:
+
+    <ul>
+    <mt:Loop name="locations_h">
+        <li>
+            <mt:Var name=__key__">
+        </li>
+    </mt:Loop>
+    </ul>
+
+Note that hash keys must be unique, so duplicate locations are not listed twice.
 
 ## CHOOSING TAGS AND SEPARATORS ##
 You can configure the open and close tags and the data and hash separator strings. The data separator and hash separator strings can be the same if you wish.
 
-If your separator character appears in your data, be sure to add quotes around the string.
+If your separator character appears in your data, be sure to add quotes around the string (see Text::CSV documentation).
 
-- Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
-- You don't want your data separators (`,`, `=>` etc) to appear in your data, obviously.
-- You data identifiers can have spaces like `---first name=` or be empty `---=`
+Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
 
-In the former you would use `moredata="first name"`. The latter would be `moredata=""`. But don't use the bareword `moredata` without at least one argument, even if it is the empty string.
+You data identifiers can have spaces like `---first name=` or be empty `---=`. In the former you would use `moredata="first name"`. The latter would be `moredata=""`. But don't use the bareword `moredata` without at least one argument, even if it is the empty string.
+
+## CHANGELOG ##
+- version 0.4: Collects multiple instances of same-named data sets from within a larger dataset. Also ignores blank lines in a hash datastring.
 
 ## CONTRIBUTORS ##
 [naoaki onozaki](https://github.com/naoaki011) wrote the L10N module and Japanese translation.

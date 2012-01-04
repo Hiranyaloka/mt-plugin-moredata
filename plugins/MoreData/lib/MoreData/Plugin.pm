@@ -77,7 +77,7 @@ sub _moredata_array {
   while (my $colref = $csv->getline($io)) {
     next unless length $colref->[0];
     my $count = scalar @{$colref};
-    die "$count is an odd number of keys and values at @{$colref}.\n" if ($count%2); 
+    die "$count is an odd number of keys and values in hash assignment at @{$colref}.\n" if $count%2; 
     $hash{$colref->[0]} = $colref->[1];
    }
   scalar %hash ? \%hash : undef;
@@ -103,7 +103,7 @@ sub _retrieve_strings {
   my $content = $str;
   my $datastring = '';
 # content is all non-data, datastring all data
-  die "MoreData requires an open tag in plugin configuration: $!" unless (length($opentag));
+  die "MoreData requires an open tag in plugin configuration.\n" unless (length($opentag));
 # check that we have a string with length.
   my $stringlength = length($str);
   return [$content, $datastring] unless ($stringlength);   
@@ -111,7 +111,7 @@ sub _retrieve_strings {
   my $openposition = index($str,$opentag); # start of _all_ the data
   return [$content, $datastring] if ($openposition == -1);
 # close tag cannot be subset of open tag
-  die "MoreData close tag cannot be substring of the open tag: $!"
+  die "MoreData close tag cannot be substring of the open tag.\n"
     unless (index($opentag,$closetag) == -1);
 # extract the content and data strings
   my $closeposition; # end of _all_ the data
@@ -121,7 +121,7 @@ sub _retrieve_strings {
     $closeposition = $stringlength;
   }
   my $datalength = $closeposition - $openposition; # length of _all_ data
-  die "MoreData open tag must precede the close tag: $!" if ($datalength < 0); #tags in wrong order;
+  die "MoreData open tag must precede the close tag.\n" if ($datalength < 0); #tags in wrong order;
   $content = substr($str, 0, $openposition) . substr($str, ($closeposition + length($closetag)), $stringlength); #length argument can be beyond the end
 # data includes open tag but not close tag
   $datastring = substr($str, $openposition, $datalength); # _all_ data
