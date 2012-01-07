@@ -1,4 +1,4 @@
-# MOREDATA 0.40 FOR MOVABLE TYPE 4 AND MELODY #
+# MOREDATA 0.50 FOR MOVABLE TYPE 4 AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
 
@@ -204,7 +204,7 @@ The content can be output separately with the `__content__` key:
     
 Will output 
 
->> Here is my excerpt which I can output without the data. And here is a continuation of the excerpt.
+    Here is my excerpt which I can output without the data. And here is a continuation of the excerpt.
 
 So your text fields can do double-duty (or triple, quadruple, etc).
 
