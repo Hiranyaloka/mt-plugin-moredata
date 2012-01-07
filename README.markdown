@@ -20,6 +20,7 @@ The strings within each named data block are processed by Text::CSV, set to allo
     "Chicago, Illinois", "San Diego, California", "New York, New York"
 
 And a hash with three elements:    
+
     ---nicknames=
     "Walter Payton" = "Sweetness"
     "William Perry" = "Refrigerator"
