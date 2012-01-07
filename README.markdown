@@ -1,4 +1,4 @@
-# MOREDATA 0.50 FOR MOVABLE TYPE 4 AND MELODY #
+# MOREDATA 0.51 FOR MOVABLE TYPE 4 AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
 
