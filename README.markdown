@@ -72,6 +72,7 @@ You may want to review the [Movable Type](http://www.movabletype.org/documentati
     </mt:Loop>
 
 produces:
+
     Moe
     Larry
     Curly
@@ -87,6 +88,7 @@ produces:
     </mt:Loop>                                           # hash loops have their own special order
 
 produces (in random order as perl hashes do):
+
     Moe Howard
     Curly Howard
     Larry Fine
