@@ -10,6 +10,73 @@ use warnings;
 use strict;
 use MT::Util qw(decode_html);
 
+# EDIT ENTRY/PAGE CALLBACK - insert moredata text field
+sub edit_entry_param {
+  my ($cb, $app, $param, $tmpl) = @_;
+  my ($entry, $moredata_entry);
+  my $blog = $app->blog;
+  # retrieve if previous moredata_entry string
+  if ($param->{id}) {
+    my $type = $param->{object_type};
+    my $class = $app->model($type);
+    $entry = $class->load($param->{id});
+    $moredata_entry = $entry->moredata_entry || '';
+  }
+# retrieve configuration defaults
+  my $plugin = MT->component("MoreData");
+  my $opentag = $plugin->get_config_value('moredata_opentag', 'blog:' . $app->blog->id );
+  my $closetag = $plugin->get_config_value('moredata_closetag', 'blog:' . $app->blog->id );
+  my $arraysep = $plugin->get_config_value('moredata_datasep', 'blog:' . $app->blog->id );
+  my $hashsep = $plugin->get_config_value('moredata_hashsep', 'blog:' . $app->blog->id );
+# generate text field form
+  my $md_entry_setting = $tmpl->createElement('app:setting', { 
+    id => 'moredata_entry', label => "MoreData", label_class => "top-label", hint => "Open tag is &ldquo;${opentag}foo=&rdquo;. Close tag is &ldquo;${closetag}&rdquo;. Array items joined by &ldquo;${arraysep}&rdquo;. Hash items joined by &ldquo;${hashsep}&rdquo;.", show_hint => "1" });
+  $md_entry_setting->innerHTML('<div class="textarea-wrapper"><textarea name="moredata_entry" id="moredata_entry" class="full-width">' . $moredata_entry . '</textarea></div>');
+  $tmpl->insertAfter($md_entry_setting,$tmpl->getElementById('tags'));
+  $param;
+}
+
+# EDIT ENTRY CALLBACK - Save MoreData_entry custom field string to db
+sub cms_post_save_entry {
+  my ( $cb, $entry, $entry_orig ) = @_;
+  my $moredata_entry_string;
+  my $app = MT->app;
+  return unless $app->isa('MT::App');
+  my $q = $app->can('query') ? $app->query : $app->param;
+  if ( $app->can('param') ) {
+    $moredata_entry_string = $q->param('moredata_entry');
+  }
+
+  $entry->moredata_entry($moredata_entry_string) if $moredata_entry_string;
+  return 1;
+}
+
+# EDIT PAGE CALLBACK - Save MoreData_entry custom field string to db
+sub cms_post_save_page {
+  my ( $cb, $page, $page_orig ) = @_;
+  my $moredata_entry_string;
+  my $app = MT->app;
+  return unless $app->isa('MT::App');
+  my $q = $app->can('query') ? $app->query : $app->param;
+  if ( $app->can('param') ) {
+    $moredata_entry_string = $q->param('moredata_entry');
+  }
+
+  $page->moredata_entry($moredata_entry_string) if $moredata_entry_string;
+  return 1;
+}
+
+# TAG - returns the moredata_entry custom field string
+sub moredata_entry {
+  my ( $ctx, $args ) = @_;
+  my $blog = $ctx->stash('blog');
+  my $blog_id = $blog->id;
+  my $plugin = MT->component("MoreData");
+  my $entry = $ctx->stash('entry');
+  return '' if !$entry;
+  return $entry->moredata_entry || '';
+}
+
 sub moredata {
   my ($str, $val, $ctx) = @_; # val is the data name and optional format (or default format)
   $str = decode_html($str);
@@ -163,3 +230,4 @@ sub _trim {
 
 
 1;
+

@@ -1,19 +1,33 @@
-id: 'More Data'
-key: 'More Data'
+id: 'MoreData'
+key: 'MoreData'
 name: 'More Data'
 description: <__trans phrase="Extract custom data structures from fields.">
-version: 0.40
+version: 0.43
+schema_version: 0.2
 author_name: <__trans phrase="Rick Bychowski">
 author_link: http://hiranyaloka.com/
 plugin_link: http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html
 blog_config_template: blog_config.tmpl
 l10n_class: 'MoreData::L10N'
 
+callbacks:
+  MT::App::CMS::template_param.edit_entry: $MoreData::MoreData::Plugin::edit_entry_param
+  MT::Entry::post_save: $MoreData::MoreData::Plugin::cms_post_save_entry
+  MT::Page::post_save: $MoreData::MoreData::Plugin::cms_post_save_page
+
 tags:
   modifier:
     moredata:
       label: 'MoreData'
       handler: $MoreData::MoreData::Plugin::moredata
+  function:
+    MoreData:
+      label: 'MoreData'
+      handler: $MoreData::MoreData::Plugin::moredata_entry
+
+object_types:
+  entry:
+    moredata_entry: string meta
 
 settings:
   moredata_opentag:
