@@ -3,7 +3,7 @@ key: 'MoreData'
 name: 'More Data'
 description: <__trans phrase="Extract custom data structures from fields.">
 version: 0.51
-schema_version: 0.2
+schema_version: 0.4
 author_name: <__trans phrase="Rick Bychowski">
 author_link: http://hiranyaloka.com/
 plugin_link: http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html
@@ -24,10 +24,13 @@ tags:
     MoreData:
       label: 'MoreData'
       handler: $MoreData::MoreData::Plugin::moredata_entry
+    MoreDataBlog:
+      label: 'MoreDataBlog'
+      handler: $MoreData::MoreData::Plugin::moredata_blog
 
 object_types:
   entry:
-    moredata_entry: string meta
+    moredata_entry: text meta
 
 settings:
   moredata_opentag:
@@ -45,3 +48,8 @@ settings:
   moredata_format:
     default: "string"
     scope: blog
+  moredata_blog:
+    default: ""
+    scope: blog
+
+  

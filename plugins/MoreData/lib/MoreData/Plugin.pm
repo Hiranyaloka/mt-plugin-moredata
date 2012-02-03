@@ -77,6 +77,19 @@ sub moredata_entry {
   return $entry->moredata_entry || '';
 }
 
+# TAG - returns the moredata_entry custom field string
+sub moredata_blog {
+  my ( $ctx, $args ) = @_;
+  my $blog = $ctx->stash('blog');
+  return '' if !$blog;
+  my $blog_id = $blog->id;
+  my $plugin = MT->component("MoreData");
+  my $scope = "blog:" . $blog_id;
+  my $moredata_blog_string = $plugin->get_config_value('moredata_blog', $scope);
+
+  return $moredata_blog_string || '';
+}
+
 sub moredata {
   my ($str, $val, $ctx) = @_; # val is the data name and optional format (or default format)
   $str = decode_html($str);

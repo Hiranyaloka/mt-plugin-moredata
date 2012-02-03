@@ -27,6 +27,7 @@ use vars qw( %Lexicon );
     'JSON' => 'JSON',
     'XML' => 'XML',
     'Perl' => 'Perl',
+    'MoreData Blog Data Field Hint.' => 'A blog-scoped data field for MoreData data. Tag is "MoreDataBlog".',
 );
 
 1;
