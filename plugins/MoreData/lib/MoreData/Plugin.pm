@@ -119,11 +119,11 @@ sub moredata {
   return $content if $dataname eq "__content__";
   $datastring = _trim($$substrings_aref[1]);
   return $datastring  if ($dataname eq '__data__'); # return all data as string
-  return $datastring unless (length($datastring)); # no sense in processing an empty string
+  return $datastring unless _exists($datastring); # no sense in processing an empty string
   my $datasep_cfg = $config->{'moredata_datasep'};
-  length($datasep_cfg) or die "The data separation string must be configured\n";
+  _exists($datasep_cfg) or die "The data separation string must be configured\n";
   my $hashsep_cfg = $config->{'moredata_hashsep'} || '';
-  length($hashsep_cfg) or die "The hash separation string must be configured\n";
+  _exists($hashsep_cfg) or die "The hash separation string must be configured\n";
 # send data and parameters to desired format for result
   if ($format eq 'array') {
     $result = _moredata_array($datastring, $datasep_cfg);
@@ -183,7 +183,7 @@ sub _retrieve_strings {
   my $content = $str;
   my $datastring = '';
 # content is all non-data, datastring all data
-  die "MoreData requires an open tag in plugin configuration.\n" unless (length($opentag));
+  die "MoreData requires an open tag in plugin configuration.\n" unless (_exists($opentag));
 # check that we have a string with length.
   my $stringlength = length($str);
   return [$content, $datastring] unless ($stringlength);   
@@ -195,7 +195,7 @@ sub _retrieve_strings {
     unless (index($opentag,$closetag) == -1);
 # extract the content and data strings
   my $closeposition; # end of _all_ the data
-  if (length($closetag) and rindex($str,$closetag) != -1) { # closetag found
+  if (_exists($closetag) and rindex($str,$closetag) != -1) { # closetag found
     $closeposition = rindex($str,$closetag);
   } else {
     $closeposition = $stringlength;
@@ -206,7 +206,7 @@ sub _retrieve_strings {
 # data includes open tag but not close tag
   $datastring = substr($str, $openposition, $datalength); # _all_ data
   return [$content, $datastring] if ($dataname eq ('__data__' || '__content__')); # return content and data as strings
-  return [$content, $datastring] unless length($datastring); # no reason to process empty datastring
+  return [$content, $datastring] unless _exists($datastring); # no reason to process empty datastring
 # search for named datastring
   my $nameopentag = $opentag . $dataname . '='; # selected data requires the equal sign appended
   my $length_tagname = length($nameopentag);
@@ -236,11 +236,17 @@ sub _retrieve_strings {
 # Perl trim function to remove whitespace from the start and end of the string
 sub _trim {
   my $string = shift;
-  $string =~ s/^\s+//;
-  $string =~ s/\s+$//;
-  return $string;
+  if ($string or $string eq '0') {
+    $string =~ s/^\s+//;
+    $string =~ s/\s+$//;
+  }
+  return $string || '';
 }
 
+# when zero is an acceptable value
+sub _exists {
+  $_[0] or $_[0] eq '0'; 
+}
 
 1;
 
