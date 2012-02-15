@@ -1,4 +1,4 @@
-# MOREDATA 0.51 FOR MOVABLE TYPE 4 AND MELODY #
+# MOREDATA 0.60 FOR MOVABLE TYPE 4 AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
 
@@ -7,17 +7,28 @@ The MoreData plugin provides a `moredata` tag modifier for extracting structured
 MoreData also provides an Entry/Page custom text field (cleverly called `MoreData`) for loading with as many data structures as you need: hashes, arrays, and strings. And of course the `moredata` modifier works very nicely with the `MoreData` custom field tag.
 
     <mt:MoreData moredata="foo","hash" setvar="my_foo_hash"> # We'll clarify this shortly
+    
+A blog-scoped custom field `MoreDataBlog` allows MoreData data to be configured within the MoreData plugin settings panel. For example, to set a folder list for creating a navigation bar:
+
+    <mt:MoreDataBlog moredata="folder_ids","array" setvar="nav_folders">
+    
+Or to simply specifiy a banner image:
+
+    <mt:MoreDataBlog moredata="banner_image_id","string" setvar="banner_image_id">
+    
+As with the Entry/Page-scoped `MoreData` field, the `MoreDataBlog` field holds as many data structures as you require.
    
 ## EMBEDDING THE DATA IN A TEXT FIELD ##
 
-First embed a string anywhere within a text field accessible from an MT function tag (e.g. EntryExcerpt AssetDescription, and CategoryDescription are all good.) Avoid the body and extended fields, as the 'rich text' or MarkDown formatting may mangle your text.
+While the `MoreData` and `MoreDataBlog` fields are perhaps the most convenient places to place your MoreData data, you can embed a string inside any text field accessible from an MT function tag (e.g. EntryExcerpt AssetDescription, and CategoryDescription are all good.) Avoid the body and extended fields, as the 'rich text' or MarkDown formatting may mangle your data.
 
-To provide a convenient place to stash your MoreData data strings, the plugin also provides the "MoreData" custom field available within your Entries and Pages
+To provide a convenient place to stash your MoreData data strings, the plugin also provides the `MoreData` custom field available within your Entries and Pages, and the `MoreDataBlog` field found in the plugin settings panel. These fields are referenced by the `MoreData` and `MoreDataBlog` tags, respectively.
 
-The strings within each named data block are processed by Text::CSV, set to allow double quoted strings and whitespace. So you can use standard CSV syntax. here is an example of an array (named locations) with three items:
+The strings within each named data block are processed by Text::CSV, set to allow double quoted strings and whitespace. So you can use standard CSV syntax. Let's consider an example of an array (named locations) with three items. We place the following text into an Entry `MoreData` field:
 
     ---locations=
     "Chicago, Illinois", "San Diego, California", "New York, New York"
+    ...
 
 And a hash with three elements:    
 
@@ -25,6 +36,7 @@ And a hash with three elements:
     "Walter Payton" = "Sweetness"
     "William Perry" = "Refrigerator"
     "Michael Singletary" = "Iron Mike"
+    ...
 
 Let's demonstrate how to use the data. First add the following text to the MoreData (or whichever) field:
 
@@ -46,7 +58,7 @@ Let's demonstrate how to use the data. First add the following text to the MoreD
     
 The above text field has two parts:
 
-- The data section starts with the first open tag (in this case `---first_name`) and continues through the close tag `...`. A data section has no limit to the number of data sets it may contain (the above has three data sets).
+- The data section starts with the _first_ open tag (in this case `---first_name`) and continues through the close tag `...`. A data section has no limit to the number of data sets it may contain (the above has three data sets). Notice that we have an open tag for each data set, but _only one close tag_ for the whole data set.
 
 - The content is everything else (i.e. the text above and below the data.
 
@@ -54,17 +66,26 @@ The MoreData plugin can access the data and content independently. Let's first c
     
 ## SETTING THE VARIABLES IN YOUR TEMPLATES ##
 
+Place this in your template code to store and/or output the data. For arrays and hashes, you will definitely want to capture the data in an MT variable. For a simple string variable, setting an intermediate MT variable is unnecessary.
+
+Here we set the variables:
+
     <mt:MoreData moredata="first_name","array" setvar="first_name_a">
     <mt:MoreData moredata="last_name","hash" setvar="last_name_h">
     <mt:MoreData moredata="say_yes","string" setvar="say_yes_s">
 
 `mt:MoreData` is the tag containing your data strings. `moredata` is the modifier which detects and parses the data. The modifier arguments `"first_name","array"` indicates which data section we wish to capture, and the data type, respectively.
 
-If no format (array, hash, or string) is given, the blog default is used. The default default is "string".
+If no format (array, hash, or string) is given, the blog default is used. The default default is "string". (The default format and the open and close tags are configurable in the plugin settings.) So for a string variable, the following template code will output the string:
+
+    <mt:MoreData moredata="say_yes"> # outputs "Why, certainly!" 
+
 
 You may want to review the [Movable Type](http://www.movabletype.org/documentation/appendices/tags/var.html) or [Melody](https://github.com/openmelody/melody/wiki/tags-var) documentation of the `mt:Var` tag with arrays and hashes.  Once we have set the array, hash, or string variables, using them is purely Movable Type syntax. Therefore the following examples are just pure Movable Type syntax which I include here as a review. 
 
 ## USING THE VARIABLES ##
+
+Let's use the 
 ### Array via loop:
 
     <mt:Loop name="first_name_a">
@@ -223,6 +244,10 @@ The plugin takes five blog-wide settings:
 
 These defaults are listed below the MoreData custom field form for your convenience.
 
+## VARIABLE SCOPE ##
+
+The data is naturally scoped to whichever field that it is placed in. So data placed in the `MoreData` field or an `EntryExcerpt` field, is scoped to an entry. You could as well place data in a `CategoryDescription` field, and therefore your data is scoped to that Category. The `MoreDataBlog` field is accessible within the plugin settings, and provides a convenient place to store blog-scoped data.
+
 ## FORMATTING THE DATA (aka the damned details) ##
 
 Each data section begins with an identifier, followed immediately by the data identifier and an equals sign:
@@ -245,7 +270,14 @@ Everything between the first `opentag` and the `closetag` (or eof) is considered
 
 You can put your data block in the middle of the content (but then don't forget the close tag).
 
-Hash key-value pairs should be put on their own line. Blank lines between sets of key-value pairs are ignored.
+Hash key-value pairs should be put on their own line (separated by a line return). Blank lines between sets of key-value pairs are ignored. The following syntax is acceptable:
+
+    ---first= one, two, three
+    ---second= snow => white
+    ruby => red
+    ...
+
+In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a "fat comma" (or whatever you set in plugin settings), but each key-value pair in a named group must be separated by a line return.
 
 The data is processed with Text::CSV allowing whitespace and double quoted strings.
 
@@ -254,13 +286,21 @@ There should be no extra whitespace between the open tag, your data identifier, 
 ## CHOOSING TAGS AND SEPARATORS ##
 You can configure the open and close tags and the data and hash separator strings. The data separator and hash separator strings can be the same if you wish.
 
-If your separator character appears in your data, be sure to add quotes around the string (see [Text::CSV documentation](http://search.cpan.org/~makamaka/Text-CSV-1.21/lib/Text/CSV.pm)).
+If your separator character appears in your data, be sure to add quotes around the string (see [Text::CSV documentation](http://search.cpan.org/~makamaka/Text-CSV-1.21/lib/Text/CSV.pm)). For example, this array works:
+
+---names=
+"Payton, Walter", "Singletary, Michael", "Perry, William"
+...
 
 Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
 
 You data identifiers can have spaces like `---first name=` or be empty `---=`. In the former you would use `moredata="first name"`. The latter would be `moredata=""`. But don't use the bareword modifier `moredata` without at least the name argument, even if it is the empty string.
 
+## DEPENDENCIES ##
+Requires the Text::CSV module. As of version 0.60, the `Text::CSV` module is bundled into extlib. Of course you will enjoy a considerable speed increase if your system has the Text::CSV_XS module installed.
+
 ## CHANGELOG ##
+- version 0.6  Add the MoreDataBlog tag and respective plugin configuration field. Also bundled Text::CSV in extlib.
 - version 0.5: Add the MoreData custom field and improve documentation and examples.
 - version 0.4: Collects multiple instances of same-named data sets from within a larger dataset. Also ignores blank lines in a hash datastring.
 
