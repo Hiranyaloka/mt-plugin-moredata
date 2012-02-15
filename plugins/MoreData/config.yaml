@@ -2,7 +2,7 @@ id: 'MoreData'
 key: 'MoreData'
 name: 'More Data'
 description: <__trans phrase="Extract custom data structures from fields.">
-version: 0.51
+version: 0.61
 schema_version: 0.4
 author_name: <__trans phrase="Rick Bychowski">
 author_link: http://hiranyaloka.com/
