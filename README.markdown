@@ -315,7 +315,7 @@ The venerable and awesome [Key Values plugin by Brad Choate](http://bradchoate.c
 Please send questions, comments, or criticisms to rick@hiranyaloka.com. Checkout the [moredata plugin home page](http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html)
 
 ## BUNDLED MODULES ##
-Text::CSV
+[Text::CSV](http://search.cpan.org/perldoc?Text::CSV)
 
 Copyright (C) 1997 Alan Citterman. All rights reserved. Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
 
