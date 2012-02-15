@@ -314,7 +314,16 @@ The venerable and awesome [Key Values plugin by Brad Choate](http://bradchoate.c
 ## SUPPORT ##
 Please send questions, comments, or criticisms to rick@hiranyaloka.com. Checkout the [moredata plugin home page](http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html)
 
-## COPYRIGHT AND LICENSE ##
+## BUNDLED MODULES ##
+Text::CSV
+
+Copyright (C) 1997 Alan Citterman. All rights reserved. Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
+
+Text::CSV_PP:
+
+Copyright (C) 2005-2010 Makamaka Hannyaharamitu.
+
+## MOREDATA COPYRIGHT AND LICENSE ##
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
@@ -322,7 +331,7 @@ by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
 
-This software is offered "as is" with no warranty. 
+This software is offered "as is" with no warranty.
 
 MoreData is Copyright 2011, Rick Bychowski, rick@hiranyaloka.com.
 All rights reserved.
