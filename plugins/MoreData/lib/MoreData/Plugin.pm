@@ -143,7 +143,7 @@ sub _moredata_array {
   my $csv = Text::CSV->new ({ binary => 1, auto_diag => 1, allow_whitespace    => 1,  sep_char => "$datasep_cfg" });
   my $io;
   open ($io, "<:encoding(utf8)", \$datastring) or die "Cannot use CSV: $!".Text::CSV->error_diag ();
-  my $row = $csv->getline ($io);
+  my $row = $csv->getline($io);
   $row || undef;
 }
 
