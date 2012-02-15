@@ -85,7 +85,8 @@ You may want to review the [Movable Type](http://www.movabletype.org/documentati
 
 ## USING THE VARIABLES ##
 
-Let's use the 
+Let's use the variables that we set above (in the edit entry or edit page form) from within or templates. 
+
 ### Array via loop:
 
     <mt:Loop name="first_name_a">
@@ -277,7 +278,7 @@ Hash key-value pairs should be put on their own line (separated by a line return
     ruby => red
     ...
 
-In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a "fat comma" (or whatever you set in plugin settings), but each key-value pair in a named group must be separated by a line return.
+In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a "fat comma" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
 
 The data is processed with Text::CSV allowing whitespace and double quoted strings.
 
