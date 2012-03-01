@@ -15,25 +15,29 @@ sub edit_entry_param {
   my ($cb, $app, $param, $tmpl) = @_;
   my ($entry, $moredata_entry);
   my $blog = $app->blog;
+  my $blog_id = $blog->id;
   # retrieve if previous moredata_entry string
-  if ($param->{id}) {
-    my $type = $param->{object_type};
-    my $class = $app->model($type);
-    $entry = $class->load($param->{id});
-    $moredata_entry = $entry->moredata_entry || '';
+  my $type = $param->{object_type};
+  my $class = $app->model($type);
+  if (!$class) {
+	  MT->log({ blog_id => $blog->id, message => "Invalid type " . $type });
+	  return 1; # fail gracefully
   }
+  $entry = $class->load($param->{id}) or return 1;
+  $moredata_entry = $entry->moredata_entry || '';
+
 # retrieve configuration defaults
-  my $plugin = MT->component("MoreData");
-  my $opentag = $plugin->get_config_value('moredata_opentag', 'blog:' . $app->blog->id );
-  my $closetag = $plugin->get_config_value('moredata_closetag', 'blog:' . $app->blog->id );
-  my $arraysep = $plugin->get_config_value('moredata_datasep', 'blog:' . $app->blog->id );
-  my $hashsep = $plugin->get_config_value('moredata_hashsep', 'blog:' . $app->blog->id );
+  my $plugin = $cb->plugin;
+  my $opentag = $plugin->get_config_value('moredata_opentag', 'blog:' . $blog_id );
+  my $closetag = $plugin->get_config_value('moredata_closetag', 'blog:' . $blog_id );
+  my $arraysep = $plugin->get_config_value('moredata_datasep', 'blog:' . $blog_id );
+  my $hashsep = $plugin->get_config_value('moredata_hashsep', 'blog:' . $blog_id );
 # generate text field form
   my $md_entry_setting = $tmpl->createElement('app:setting', { 
-    id => 'moredata_entry', label => "MoreData", label_class => "top-label", hint => "Open tag is &ldquo;${opentag}foo=&rdquo;. Close tag is &ldquo;${closetag}&rdquo;. Array items joined by &ldquo;${arraysep}&rdquo;. Hash items joined by &ldquo;${hashsep}&rdquo;.", show_hint => "1" });
+  id => 'moredata_entry', label => "MoreData", label_class => "top-label", hint => "Open tag is &ldquo;${opentag}foo=&rdquo;. Close tag is &ldquo;${closetag}&rdquo;. Array items joined by &ldquo;${arraysep}&rdquo;. Hash items joined by &ldquo;${hashsep}&rdquo;.", show_hint => "1" });
   $md_entry_setting->innerHTML('<div class="textarea-wrapper"><textarea name="moredata_entry" id="moredata_entry" class="full-width">' . $moredata_entry . '</textarea></div>');
-  $tmpl->insertAfter($md_entry_setting,$tmpl->getElementById('tags'));
-  $param;
+  $tmpl->insertAfter($md_entry_setting,$tmpl->getElementById('keywords'));
+  return 1;
 }
 
 # EDIT ENTRY CALLBACK - Save MoreData_entry custom field string to db
@@ -42,12 +46,8 @@ sub cms_post_save_entry {
   my $moredata_entry_string;
   my $app = MT->app;
   return unless $app->isa('MT::App');
-  my $q = $app->can('query') ? $app->query : $app->param;
-  if ( $app->can('param') ) {
-    $moredata_entry_string = $q->param('moredata_entry');
-  }
-
-  $entry->moredata_entry($moredata_entry_string) if $moredata_entry_string;
+  $moredata_entry_string = $app->param('moredata_entry') || '';
+  $entry->moredata_entry($moredata_entry_string);
   return 1;
 }
 
@@ -57,12 +57,8 @@ sub cms_post_save_page {
   my $moredata_entry_string;
   my $app = MT->app;
   return unless $app->isa('MT::App');
-  my $q = $app->can('query') ? $app->query : $app->param;
-  if ( $app->can('param') ) {
-    $moredata_entry_string = $q->param('moredata_entry');
-  }
-
-  $page->moredata_entry($moredata_entry_string) if $moredata_entry_string;
+  $moredata_entry_string = $app->param('moredata_entry') || '';
+  $page->moredata_entry($moredata_entry_string);
   return 1;
 }
 
