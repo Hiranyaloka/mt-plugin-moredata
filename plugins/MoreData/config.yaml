@@ -11,7 +11,9 @@ blog_config_template: blog_config.tmpl
 l10n_class: 'MoreData::L10N'
 
 callbacks:
-  MT::App::CMS::template_param.edit_entry: $MoreData::MoreData::Plugin::edit_entry_param
+  MT::App::CMS::template_param.edit_entry:
+    handler: $MoreData::MoreData::Plugin::edit_entry_param
+    priority: 10 # Lowered priority so as not to interfere with the Custom Fields plugin
   MT::Entry::post_save: $MoreData::MoreData::Plugin::cms_post_save_entry
   MT::Page::post_save: $MoreData::MoreData::Plugin::cms_post_save_page
 
