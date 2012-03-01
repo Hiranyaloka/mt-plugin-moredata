@@ -1,4 +1,4 @@
-# MOREDATA 0.61 FOR MOVABLE TYPE 4 AND MELODY #
+# MOREDATA 0.71 FOR MOVABLE TYPE 4 AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
 
@@ -301,6 +301,7 @@ You data identifiers can have spaces like `---first name=` or be empty `---=`. I
 Requires the Text::CSV module. As of version 0.60, the `Text::CSV` module is bundled into extlib. Of course you will enjoy a considerable speed increase if your system has the Text::CSV_XS module installed.
 
 ## CHANGELOG ##
+- version 0.7  MoreData no longer breaks the Custom Fields plugin.
 - version 0.6  Add the MoreDataBlog tag and respective plugin configuration field. Also bundled Text::CSV in extlib.
 - version 0.5: Add the MoreData custom field and improve documentation and examples.
 - version 0.4: Collects multiple instances of same-named data sets from within a larger dataset. Also ignores blank lines in a hash datastring.
