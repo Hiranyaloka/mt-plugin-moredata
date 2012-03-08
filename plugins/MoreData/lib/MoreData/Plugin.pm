@@ -232,7 +232,7 @@ sub _retrieve_strings {
 # Perl trim function to remove whitespace from the start and end of the string
 sub _trim {
   my $string = shift;
-  if ($string or $string eq '0') {
+  if ($string) {
     $string =~ s/^\s+//;
     $string =~ s/\s+$//;
   }
