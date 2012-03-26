@@ -1,8 +1,10 @@
 # MOREDATA 0.81 FOR MOVABLE TYPE 4, 5, AND MELODY #
 
-MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
+The MoreData plugin provides a fast, powerful and flexible way for savvy Movable Type designers and authors to create native Movable Type hash, array, and string custom variables for use in their templates. The MoreData plugin is open source and does not require Movable Type Pro. MoreData will happily coexist with MT Pro's Custom Field plugin and provide functionality which Custom Fields does not.
 
-The MoreData plugin provides a `moredata` tag modifier for extracting structured data from any function tag (i.e. any tag which outputs text).
+MoreData can parse any Movable Type tag into a hash, array, or string, which can then be captured as an MT variable (hash, array, or string).
+
+The MoreData plugin provides a `moredata` tag modifier for extracting structured text from any function tag (i.e. any tag which returns text).
 
 MoreData also provides an Entry/Page custom text field (cleverly called `MoreData`) for loading with as many data structures as you need: hashes, arrays, and strings. And of course the `moredata` modifier works very nicely with the `MoreData` custom field tag.
 
