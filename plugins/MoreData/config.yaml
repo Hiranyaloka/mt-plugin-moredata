@@ -2,7 +2,7 @@ id: 'MoreData'
 key: 'MoreData'
 name: 'More Data'
 description: '<__trans phrase="Extract custom data structures from fields.">'
-version: 0.80
+version: 0.81
 schema_version: 0.4
 author_name: '<__trans phrase="Rick Bychowski">'
 author_link: http://hiranyaloka.com/
@@ -42,7 +42,7 @@ settings:
     default: "..."
     scope: blog
   moredata_hashsep:
-    default: ":"
+    default: =
     scope: blog
   moredata_datasep:
     default: ","
