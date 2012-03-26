@@ -35,7 +35,7 @@ sub edit_entry_param {
 # generate text field form
   my $md_entry_setting = $tmpl->createElement('app:setting', { 
   id => 'moredata_entry', label => "MoreData", label_class => "top-label", hint => "Open tag is &ldquo;${opentag}foo=&rdquo;. Close tag is &ldquo;${closetag}&rdquo;. Array items joined by &ldquo;${arraysep}&rdquo;. Hash items joined by &ldquo;${hashsep}&rdquo;.", show_hint => "1" });
-  $md_entry_setting->innerHTML('<div class="textarea-wrapper"><textarea name="moredata_entry" id="moredata_entry" class="full-width">' . $moredata_entry . '</textarea></div>');
+  $md_entry_setting->innerHTML('<div class="textarea-wrapper"><textarea name="moredata_entry" id="moredata_entry" class="text full low full-width">' . $moredata_entry . '</textarea></div>');
   $tmpl->insertAfter($md_entry_setting,$tmpl->getElementById('keywords'));
   return 1;
 }
