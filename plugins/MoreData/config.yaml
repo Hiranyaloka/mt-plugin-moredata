@@ -1,10 +1,10 @@
 id: 'MoreData'
 key: 'MoreData'
 name: 'More Data'
-description: <__trans phrase="Extract custom data structures from fields.">
+description: '<__trans phrase="Extract custom data structures from fields.">'
 version: 0.71
 schema_version: 0.4
-author_name: <__trans phrase="Rick Bychowski">
+author_name: '<__trans phrase="Rick Bychowski">'
 author_link: http://hiranyaloka.com/
 plugin_link: http://hiranyaloka.com/website_design_encinitas/software/moredata-plugin-for-movable-type.html
 blog_config_template: blog_config.tmpl
