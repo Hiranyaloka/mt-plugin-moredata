@@ -1,4 +1,4 @@
-# MOREDATA 0.80 FOR MOVABLE TYPE 4, 5, AND MELODY #
+# MOREDATA 0.81 FOR MOVABLE TYPE 4, 5, AND MELODY #
 
 MoreData parses finds and parses CSV strings from any Movable Type tag into a hash, array, or string which can be captured as an MT variable.
 
@@ -33,9 +33,9 @@ The strings within each named data block are processed by Text::CSV, set to allo
 And a hash with three elements:    
 
     ---nicknames=
-    "Walter Payton" : "Sweetness"
-    "William Perry" : "Refrigerator"
-    "Michael Singletary" : "Iron Mike"
+    "Walter Payton" = "Sweetness"
+    "William Perry" = "Refrigerator"
+    "Michael Singletary" = "Iron Mike"
     ...
 
 Let's demonstrate how to use the data. First add the following text to the MoreData (or whichever) field:
@@ -46,9 +46,9 @@ Let's demonstrate how to use the data. First add the following text to the MoreD
     Moe, Larry, Curly
     
     ---last_name=
-    Moe : Howard
-    Curly : Howard
-    Larry : Fine
+    Moe = Howard
+    Curly = Howard
+    Larry = Fine
     
     ---say_yes=
     Why, certainly!
@@ -144,8 +144,8 @@ OK now back to more MoreData features.
 As of version 0.4, multiple instances of named data strings can be collected and saved into a single MT hash, array, or string variables. For example, if your `Asset Description` fields had a MoreData field like this:
 
     ---locations=
-    Paris : 1
-    Tokyo : 1
+    Paris = 1
+    Tokyo = 1
     ...
 
 Then you could collect all the data into a single hash variable like this:
@@ -163,29 +163,29 @@ The `"__data__"` argument merely extracts the raw data strings from the text fie
 Will contain all the data which was collected in the `mt:Assets` loop, for example:
 
     ---locations=
-    Paris : 1
-    Marseille : 1
-    Bordeaux : 1
+    Paris = 1
+    Marseille = 1
+    Bordeaux = 1
     ---locations=
     Chicago = 1
-    "New York" : 1
-    "SanFrancisco" : 1
+    "New York" = 1
+    "SanFrancisco" = 1
     ---locations=
-    Tijuana : 1
-    Cozumel : 1
-    "Mexico City" : 1
+    Tijuana = 1
+    Cozumel = 1
+    "Mexico City" = 1
     ---stooges=
     Moe, Larry, Curly
     ---locations=
-    Denver : 1
-    Chicago : 1
-    "SanFrancisco" : 1
+    Denver = 1
+    Chicago = 1
+    "SanFrancisco" = 1
     ---locations=
-    London : 1
-    Cardiff : 1
+    London = 1
+    Cardiff = 1
     ---locations=
-    Marseille : 1
-    Bordeaux : 1
+    Marseille = 1
+    Bordeaux = 1
     ---bears=
     Sweetness, Refrigerator, "Iron Mike"
     ...
@@ -240,7 +240,7 @@ The plugin takes five blog-wide settings:
 - `opentag` should be a unique string which opens a data section, and is required for each data identifier.
 - `closetag` is required at the end of the whole dataset. Optionally it can close each data section.
 - `datasep` is a character that joins items in an array. Default is a comma ",".
-- `hashsep` is a character that joins keys from values. Efault is a colon ":".
+- `hashsep` is a character that joins keys from values. Efault is an equal sign "=".
 - `format` is the default format, used when a second argument to the `moredata` modifier is not given.
 
 These defaults are listed below the MoreData custom field form for your convenience.
@@ -261,8 +261,8 @@ Each named dataset must be terminated by another named dataset, or a closetag if
     ---first=
     one, two, three
     ---second=
-    snow : white
-    ruby : red
+    snow = white
+    ruby = red
     ...
     
 You can omit the close tag if the data is at the end with no subsequent content.
@@ -274,8 +274,8 @@ You can put your data block in the middle of the content (but then don't forget 
 Hash key-value pairs should be put on their own line (separated by a line return). Blank lines between sets of key-value pairs are ignored. The following syntax is acceptable:
 
     ---first= one, two, three
-    ---second= snow : white
-    ruby : red
+    ---second= snow = white
+    ruby = red
     ...
 
 In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a colon ":" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
@@ -295,15 +295,13 @@ If your separator character appears in your data, be sure to add quotes around t
 
 Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
 
-Don't use an equal sign "=" with MT5. MT5 doesn't accept the equal sign. (It works just fine in MT4 though).
-
 You data identifiers can have spaces like `---first name=` or be empty `---=`. In the former you would use `moredata="first name"`. The latter would be `moredata=""`. But don't use the bareword modifier `moredata` without at least the name argument, even if it is the empty string.
 
 ## DEPENDENCIES ##
 Requires the Text::CSV module. As of version 0.60, the `Text::CSV` module is bundled into extlib. Of course you will enjoy a considerable speed increase if your system has the Text::CSV_XS module installed.
 
 ## CHANGELOG ##
-- version 0.8  Compatible with MT5. Changed default hash separator.
+- version 0.8  Compatible with MT5.
 - version 0.7  MoreData no longer breaks the Custom Fields plugin.
 - version 0.6  Add the MoreDataBlog tag and respective plugin configuration field. Also bundled Text::CSV in extlib.
 - version 0.5: Add the MoreData custom field and improve documentation and examples.
