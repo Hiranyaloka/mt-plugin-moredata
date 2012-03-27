@@ -1,10 +1,14 @@
 # MOREDATA 0.81 FOR MOVABLE TYPE 4, 5, AND MELODY #
 
-The MoreData plugin provides a fast, powerful and flexible way for savvy Movable Type designers and authors to create native Movable Type hash, array, and string custom variables for use in their templates. The MoreData plugin is open source and does not require Movable Type Pro. MoreData will happily coexist with MT Pro's Custom Field plugin and provide functionality which Custom Fields does not.
+The MoreData plugin provides a fast, powerful and flexible way for savvy Movable Type designers and authors to create native Movable Type hash, array, and string custom variables for use in their templates, which can be linked with almost any MT object. The MoreData plugin is open source and does not require Movable Type Pro.
 
-MoreData can parse any Movable Type tag into a hash, array, or string, which can then be captured as an MT variable (hash, array, or string).
+MoreData will happily coexist with MT Pro's Custom Field plugin and provide functionality which Custom Fields does not. A MoreData text field can even be embedded in a Custom Field.
 
-The MoreData plugin provides a `moredata` tag modifier for extracting structured text from any function tag (i.e. any tag which returns text).
+A MoreData custom field can be associated with any object which has an editable text field and associated MT Tag. 
+
+MoreData can parse Movable Type tags (via the `moredata` modifier) into hashes, arrays, and strings, which can then be captured as an MT variables (hash, array, or string) in your templates. A single MT tag can be parsed into an unlimited number of arrays, hashes, and string variables.
+
+The MoreData plugin provides a `moredata` tag modifier for extracting structured text from any function tag (i.e. any tag which returns text). So for example, the Asset Description field can hold MoreData text, and so the `AssetDescription` tag can therefore be parsed by the `moredata` modifier into a native MT variable associated with any particular asset.
 
 MoreData also provides an Entry/Page custom text field (cleverly called `MoreData`) for loading with as many data structures as you need: hashes, arrays, and strings. And of course the `moredata` modifier works very nicely with the `MoreData` custom field tag.
 
@@ -142,7 +146,7 @@ I like using MT variables in my Templates. With the MoreData I can indulge my "v
 
 OK now back to more MoreData features.
 
-## COLLECTING DATA FROM MULTIPLE SOURCES INTO A SINGLE VARIABLE
+## COLLECTING DATA FROM MULTIPLE SOURCES INTO A SINGLE VARIABLE ##
 As of version 0.4, multiple instances of named data strings can be collected and saved into a single MT hash, array, or string variables. For example, if your `Asset Description` fields had a MoreData field like this:
 
     ---locations=
