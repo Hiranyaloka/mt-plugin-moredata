@@ -1,4 +1,4 @@
-# MOREDATA 0.82 FOR MOVABLE TYPE 4, 5, AND MELODY #
+# MOREDATA 0.83 FOR MOVABLE TYPE 4, 5, AND MELODY #
 
 The MoreData plugin provides a fast, powerful and flexible way for savvy Movable Type designers and authors to create native Movable Type hash, array, and string custom variables for use in their templates, which can be linked with almost any MT object. The MoreData plugin is open source and does not require Movable Type Pro.
 
