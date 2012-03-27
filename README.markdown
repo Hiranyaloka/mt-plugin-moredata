@@ -252,10 +252,10 @@ The plugin takes five blog-wide settings:
 - `opentag` should be a unique string which opens a data section, and is required for each data identifier.
 - `closetag` is required at the end of the whole dataset. Optionally it can close each data section.
 - `datasep` is a character that joins items in an array. Default is a comma ",".
-- `hashsep` is a character that joins keys from values. Efault is an equal sign "=".
+- `hashsep` is a character that joins keys from values. Default is an equal sign "=".
 - `format` is the default format, used when a second argument to the `moredata` modifier is not given.
 
-These defaults are listed below the MoreData custom field form for your convenience.
+These current settings are listed below the MoreData custom field form for your convenience.
 
 ## VARIABLE SCOPE ##
 
@@ -290,16 +290,20 @@ Hash key-value pairs should be put on their own line (separated by a line return
     ruby = red
     ...
 
-In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a colon "=" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
+In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by an equals sign "=" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
+
+Extra whitespace is tolerated around the separator characters. So `one,two` is the same as `one , two`. And `snow=white` is the same as `snow = white`. The exception is if you choose a space ' ' as the separator character for your arrays or hashes. Then the syntax is less forgiving.
 
 The data is processed with Text::CSV, allowing whitespace and double quoted strings. Text::CSV will use Text::CSV_XS if available on your system (much faster).
 
 There should be no extra whitespace between the open tag, your data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
 
 ## CHOOSING TAGS AND SEPARATORS ##
-You can configure the open and close tags and the data and hash separator strings. The data separator and hash separator strings can be the same if you wish.
+You can configure the open and close tags and the data and hash separator characters. The array separator can have the same value as the hash separator.
 
-If your separator character appears in your data, be sure to add quotes around the string (see [Text::CSV documentation](http://search.cpan.org/~makamaka/Text-CSV-1.21/lib/Text/CSV.pm)). For example, this array works:
+The open tag, close tag, and separator characters are trimmed for leading and trailing whitespace. However, the separator characters are not trimmed when their value is " " (whitespace). Therefore it is possible to split on whitespace, but be warned that the the syntax is less forgiving.
+
+If your separator character appears in your data, be sure to add quotes around the items (see [Text::CSV documentation](http://search.cpan.org/~makamaka/Text-CSV-1.21/lib/Text/CSV.pm)). For example, this array works:
 
 ---names=
 "Payton, Walter", "Singletary, Michael", "Perry, William"
