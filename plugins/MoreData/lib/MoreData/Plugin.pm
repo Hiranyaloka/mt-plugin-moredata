@@ -96,8 +96,10 @@ sub moredata {
 # retrieve configuration defaults
   my $config = _moredata_config($ctx);
 # open tag is required
-  my $opentag = $config->{ moredata_opentag } or die "MoreData requires an open tag\n";
+  my $opentag = _trim($config->{ moredata_opentag });
+  die "MoreData requires an open tag\n" unless $opentag;
   my $closetag = $config->{ moredata_closetag } || ''; # not required
+  $closetag = _trim($closetag);
 # retrieve format and data separator from tag parameters
   my $format_cfg = $config->{'moredata_format'};
   my $format = '';
@@ -116,9 +118,9 @@ sub moredata {
   $datastring = _trim($$substrings_aref[1]);
   return $datastring  if ($dataname eq '__data__'); # return all data as string
   return $datastring unless _exists($datastring); # no sense in processing an empty string
-  my $datasep_cfg = $config->{'moredata_datasep'};
+  my $datasep_cfg = _trim($config->{'moredata_datasep'});
   _exists($datasep_cfg) or die "The data separation string must be configured\n";
-  my $hashsep_cfg = $config->{'moredata_hashsep'} || '';
+  my $hashsep_cfg = _trim($config->{'moredata_hashsep'} || '');
   _exists($hashsep_cfg) or die "The hash separation string must be configured\n";
 # send data and parameters to desired format for result
   if ($format eq 'array') {
@@ -233,8 +235,7 @@ sub _retrieve_strings {
 sub _trim {
   my $string = shift;
   if ($string) {
-    $string =~ s/^\s+//;
-    $string =~ s/\s+$//;
+    $string =~ s/^\s+|\s+$//g;
   }
   return $string || '';
 }
