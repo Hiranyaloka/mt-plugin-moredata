@@ -26,9 +26,15 @@ As with the Entry/Page-scoped `MoreData` field, the `MoreDataBlog` field holds a
    
 ## EMBEDDING THE DATA IN A TEXT FIELD ##
 
-While the `MoreData` and `MoreDataBlog` fields are perhaps the most convenient places to place your MoreData data, you can embed a string inside any text field accessible from an MT function tag (e.g. EntryExcerpt AssetDescription, and CategoryDescription are all good.) Avoid the body and extended fields, as the 'rich text' or MarkDown formatting may mangle your data.
+While the `MoreData` and `MoreDataBlog` fields are perhaps the most convenient places to place your MoreData data, you can embed a string inside any text field accessible from an MT function tag (e.g. EntryExcerpt AssetDescription, and CategoryDescription are all good.) If you use the entry or page body and extended fields, use the `convert_breaks = "0"` filter __before__ the `moredata` filter to prevent unwanted formating from the "rich text", "convert line break", or other filters.
 
-To provide a convenient place to stash your MoreData data strings, the plugin also provides the `MoreData` custom field available within your Entries and Pages, and the `MoreDataBlog` field found in the plugin settings panel. These fields are referenced by the `MoreData` and `MoreDataBlog` tags, respectively.
+    <mt:EntryMore convert_breaks="0" moredata="entry_hash","hash" setvar="entry_hash">
+
+To provide a convenient place to stash your MoreData data strings, the plugin also provides the `MoreData` custom field available within your Entries and Pages, and the `MoreDataBlog` field found in the plugin settings panel. These fields are referenced by the `MoreData` and `MoreDataBlog` tags, respectively. You parse these tags just as you would any other standard or custom field tag.
+
+    <mt:MoreData moredata="entry_hash","hash" setvar="entry_hash">
+
+    <mt:MoreDataBlog moredata="nav_folders","array" setvar="nav_folders">
 
 The strings within each named data block are processed by Text::CSV, set to allow double quoted strings and whitespace. So you can use standard CSV syntax. Let's consider an example of an array (named locations) with three items. We place the following text into an Entry `MoreData` field:
 
@@ -284,9 +290,9 @@ Hash key-value pairs should be put on their own line (separated by a line return
     ruby = red
     ...
 
-In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a colon ":" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
+In other words, array items are separated by a comma (or whatever your default setting is), and keys are separated by their values by a colon "=" (or whatever you set in plugin settings), but each key-value pair in a named hash group must be separated by a line return.
 
-The data is processed with Text::CSV allowing whitespace and double quoted strings.
+The data is processed with Text::CSV, allowing whitespace and double quoted strings. Text::CSV will use Text::CSV_XS if available on your system (much faster).
 
 There should be no extra whitespace between the open tag, your data identifier, and the `=` sign. So for example with the default open tag, you should always do this `---my tag=`. In other words your data identifier can only have internal spaces.
 
@@ -299,7 +305,7 @@ If your separator character appears in your data, be sure to add quotes around t
 "Payton, Walter", "Singletary, Michael", "Perry, William"
 ...
 
-Avoid having your open tags appearing in the preceding content or your close tags appearing in subsequent content.
+Avoid having your open tags appearing in the preceding tag content or your close tags appearing in subsequent tag content.
 
 You data identifiers can have spaces like `---first name=` or be empty `---=`. In the former you would use `moredata="first name"`. The latter would be `moredata=""`. But don't use the bareword modifier `moredata` without at least the name argument, even if it is the empty string.
 
