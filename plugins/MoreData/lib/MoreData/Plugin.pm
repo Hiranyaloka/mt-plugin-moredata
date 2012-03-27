@@ -118,9 +118,11 @@ sub moredata {
   $datastring = _trim($$substrings_aref[1]);
   return $datastring  if ($dataname eq '__data__'); # return all data as string
   return $datastring unless _exists($datastring); # no sense in processing an empty string
-  my $datasep_cfg = _trim($config->{'moredata_datasep'});
+  my $datasep_cfg = $config->{'moredata_datasep'};
+  $datasep_cfg = _trim($datasep_cfg) unless ($datasep_cfg =~ /^\s+$/);  # trim unless whitespace only
   _exists($datasep_cfg) or die "The data separation string must be configured\n";
-  my $hashsep_cfg = _trim($config->{'moredata_hashsep'} || '');
+  my $hashsep_cfg = $config->{'moredata_hashsep'} || '';
+  $hashsep_cfg =  _trim($hashsep_cfg) unless ($hashsep_cfg =~ /^\s+$/);  # trim unless whitespace only
   _exists($hashsep_cfg) or die "The hash separation string must be configured\n";
 # send data and parameters to desired format for result
   if ($format eq 'array') {
