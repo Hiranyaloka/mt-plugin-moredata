@@ -8,7 +8,7 @@ use vars qw( %Lexicon );
 
 %Lexicon = (
     'Extract custom data structures from fields.' => 'Extract custom data structures from fields.',
-    'Rick Bychowsk' => 'Rick Bychowsk',
+    'Rick Bychowski' => 'Rick Bychowski',
     'Open Tag' => 'Open Tag',
     'Close Tag' => 'Close Tag',
     'Data Separator' => 'Data Separator',

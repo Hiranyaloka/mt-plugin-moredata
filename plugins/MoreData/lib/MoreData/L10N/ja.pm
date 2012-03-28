@@ -10,7 +10,7 @@ use vars qw( %Lexicon );
 
 %Lexicon = (
     'Extract custom data structures from fields.' => 'フィールドから、定義した構造でデータを読み出します。',
-    'Rick Bychowsk' => 'Rick Bychowsk',
+    'Rick Bychowski' => 'Rick Bychowski',
     'Open Tag' => '開始タグ',
     'Close Tag' => '終了タグ',
     'Data Separator' => 'データ区切り文字',
