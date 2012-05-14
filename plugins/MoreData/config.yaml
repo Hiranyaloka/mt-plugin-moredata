@@ -11,14 +11,14 @@ blog_config_template: blog_config.tmpl
 l10n_class: 'MoreData::L10N'
 
 applications:
-    cms:
-        callbacks:
-            template_param.edit_entry:
-              handler: $MoreData::MoreData::Plugin::edit_entry_param
-              # Lowered priority so as not to interfere with the Custom Fields plugin
-              priority: 10 
-            cms_pre_save.entry: $MoreData::MoreData::Plugin::cms_post_save_entry
-            cms_pre_save.page: $MoreData::MoreData::Plugin::cms_post_save_entry
+  cms:
+    callbacks:
+      template_param.edit_entry:
+        handler: $MoreData::MoreData::Plugin::edit_entry_param
+        # Lowered priority so as not to interfere with the Custom Fields plugin
+        priority: 10 
+      cms_pre_save.entry: $MoreData::MoreData::Plugin::cms_post_save_entry
+      cms_pre_save.page: $MoreData::MoreData::Plugin::cms_post_save_entry
 
 tags:
   modifier:
