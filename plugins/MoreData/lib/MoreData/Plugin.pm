@@ -40,25 +40,12 @@ sub edit_entry_param {
   return 1;
 }
 
-# EDIT ENTRY CALLBACK - Save MoreData_entry custom field string to db
+# EDIT ENTRY / PAGE CALLBACK - Save MoreData_entry custom field string to db
 sub cms_post_save_entry {
-  my ( $cb, $entry, $entry_orig ) = @_;
+  my ( $cb, $app, $entry, $entry_orig ) = @_;
   my $moredata_entry_string;
-  my $app = MT->app;
-  return unless $app->isa('MT::App');
   $moredata_entry_string = $app->param('moredata_entry') || '';
   $entry->moredata_entry($moredata_entry_string);
-  return 1;
-}
-
-# EDIT PAGE CALLBACK - Save MoreData_entry custom field string to db
-sub cms_post_save_page {
-  my ( $cb, $page, $page_orig ) = @_;
-  my $moredata_entry_string;
-  my $app = MT->app;
-  return unless $app->isa('MT::App');
-  $moredata_entry_string = $app->param('moredata_entry') || '';
-  $page->moredata_entry($moredata_entry_string);
   return 1;
 }
 
